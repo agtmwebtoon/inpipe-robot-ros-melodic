@@ -1,0 +1,29 @@
+<launch>
+  <node pkg="joystick-control-test" type="teleop_fin.py" name="joystick_teleop" />
+  <node pkg="ebimu-uart" type="talker.py" name="chatter" />
+
+  <group ns="x_control">
+    <node pkg="servo" type="servo.py" name="linear_x">
+      <param name="pin_num" value="14"/>
+      <param name="frequency" value="100" />
+      <param name="max_pulse_width_us" value="2400" />
+      <param name="min_pulse_width_us" value="600" />
+    </node>
+
+    <node pkg="pid-control" type="pid_control.py" name="linear_x_control" />
+  </group>
+
+  <group ns="y_control">
+    <node pkg="servo" type="servo.py" name="linear_y">
+      <param name="pin_num" value="15"/>
+      <param name="frequency" value="100" />
+      <param name="max_pulse_width_us" value="2400" />
+      <param name="min_pulse_width_us" value="600" />
+    </node>
+
+    <node pkg="pid-control" type="pid_control.py" name="linear_y_control" />
+  </group>
+
+
+</launch>
+
