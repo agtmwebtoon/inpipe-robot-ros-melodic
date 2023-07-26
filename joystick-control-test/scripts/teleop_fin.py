@@ -9,8 +9,8 @@ from sensor_msgs.msg import Joy
 ser = Serial('/dev/ttyACM0', 9600)
 
 def callback():
-    pub_x = rospy.Publisher('/x_control/joystick_teleop', Joy, queue_size=10)
-    pub_y = rospy.Publisher('/y_control/joystick_teleop', Joy, queue_size=10)
+    pub_x = rospy.Publisher('/linear_x/joystick_teleop', Joy, queue_size=10)
+    pub_y = rospy.Publisher('/linear_y/joystick_teleop', Joy, queue_size=10)
     
     rate = rospy.Rate(100)
 

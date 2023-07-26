@@ -11,20 +11,35 @@ from tf.transformations import euler_from_quaternion
 from sensor_msgs.msg import Joy
 from std_msgs.msg import Int32
 
-pub = rospy.Publisher('pid_controller', Int32, queue_size=10)
+pub_x = rospy.Publisher('/x_control/pid_controller', Int32, queue_size=10)
+pub_y = rospy.Publisher('/y_control/pid_controller', Int32, queue_size=10)
 
 def calc_pose(pose_data, setpoint_data):
  
     quaternions = pose_data.orientation
 
-    print(quaternions)
-    roll, pitch, yaw = euler_from_quaternion([quaternions.x,  quaternions.y,  quaternions.z, quaternions.w])
+    yaw, pitch, roll = euler_from_quaternion([quaternions.x,  quaternions.y,  quaternions.z, quaternions.w])
+    
+    roll *= 57.2958
+    pitch *= 57.2958
+    yaw *= 57.2958
+    
+    
+    if yaw > 0:
+        yaw -= 180
+    elif yaw < 0:
+        yaw += 180
 
-    pid_control_pitch.setpoint = setpoint_data.axes[0] * (180.0 / 970) - 90
-    print(setpoint_data.axes[0] * (180.0 / 970) - 90)
-    control = pid_control_pitch(pitch * 57.2958)
-    print(pitch* 57.2958)
-    pub.publish(90 + control)
+    print(str(roll) + " " + str(pitch) + " " + str(yaw))
+
+    pid_control_pitch.setpoint = 0
+    pid_control_yaw.setpoint = 0
+    
+    control_pitch = pid_control_pitch(pitch)
+    control_yaw = pid_control_yaw(yaw)
+    
+    pub_x.publish(45 + control_yaw)
+    pub_y.publish(45 + control_pitch)
     rate.sleep()
 
 def listener():
@@ -43,6 +58,9 @@ if __name__ == '__main__':
     rospy.init_node('pid')
     rate = rospy.Rate(100) # 10hz
 
-    pid_control_pitch = PID(1, 0.1, 0.05, setpoint=45) 
+    pid_control_pitch = PID(1, 0.1, 0.05, setpoint=0)
+    pid_control_yaw = PID(1, 0.1, 0.05, setpoint=0)
     pid_control_pitch.output_limits = (-30, 30)
+    pid_control_yaw.output_limits = (-30, 30)
+
     listener()

@@ -1,9 +1,8 @@
 <launch>
-  <node pkg="joystick-control-test" type="teleop_fin.py" name="joystick_teleop" />
   <node pkg="ebimu-uart" type="talker.py" name="chatter" />
 
   <group ns="x_control">
-    <node pkg="servo" type="servo.py" name="linear_x">
+    <node pkg="fin-control" type="linear_control.py" name="linear_x">
       <param name="pin_num" value="14"/>
       <param name="frequency" value="100" />
       <param name="max_pulse_width_us" value="2400" />
@@ -14,7 +13,7 @@
   </group>
 
   <group ns="y_control">
-    <node pkg="servo" type="servo.py" name="linear_y">
+    <node pkg="fin-control" type="linear_control.py" name="linear_y">
       <param name="pin_num" value="15"/>
       <param name="frequency" value="100" />
       <param name="max_pulse_width_us" value="2400" />
