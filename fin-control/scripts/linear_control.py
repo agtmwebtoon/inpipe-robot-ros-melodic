@@ -45,7 +45,7 @@ def callback(data):
     
     duty = SERVO_MIN_DUTY + (transformed_x *  (SERVO_MAX_DUTY - SERVO_MIN_DUTY)/90.0)
 
-    rospy.loginfo(rospy.get_caller_id() + 'Setting %s', duty)
+    #rospy.loginfo(rospy.get_caller_id() + 'Setting %s', duty)
     servo.ChangeDutyCycle(duty)
 
 

@@ -23,6 +23,7 @@
     <node pkg="pid-control" type="pid_control.py" name="linear_y_control" />
   </group>
 
-
+  <node pkg="hydro-sensor" type="export_signal.py" name="hydrophone" />
+  <node pkg="endoscope-vision" type="talker.py" name="endoscope" />
 </launch>
 
