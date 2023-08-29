@@ -17,16 +17,14 @@ def callback():
     while not rospy.is_shutdown():
 
         if ser.readable():
-            res = ser.readline()
-            res_forward = res.split("-")[0]
-            res = res[:-2]
-            res_backward = res.split("-")[1:][0]
-            
-            print(res_forward)
             try:
+                res = ser.readline()
+                res = res.decode()
+                res_forward = res.split("*")[0]
+                res_backward = res.split("*")[1]
+                
                 buttons = list(map(int, res_backward.split(":")))
                 axes = list(map(int, res_forward.split(":")))
-                print(axes)
             
             except:
                 print("Pass")
